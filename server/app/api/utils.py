@@ -1,6 +1,7 @@
 # coding=utf-8
 """Provide common utilities for API processing."""
 from flask import current_app
+from http import HTTPStatus
 
 ALLOWED_EXTENSIONS = ['png', 'jpg', 'jpeg', 'gif']
 
@@ -17,7 +18,7 @@ def handle_internal_error(message):
     :return: tuple of json and status code
     """
     current_app.logger.exception(message)
-    return get_message_json('服务器内部错误'), HTTPStatus.INTERNAL_SERVER_ERROR
+    return get_message_json('Unknown server error'), HTTPStatus.INTERNAL_SERVER_ERROR
 
 
 def allowed_file(filename):

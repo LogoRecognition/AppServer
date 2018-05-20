@@ -21,7 +21,7 @@ class ImageResource(Resource):
 
         file = request.files.get('image_file')
         if file is None or file.filename == '':
-            return get_message_json('没有上传图片'), HTTPStatus.BAD_REQUEST
+            return get_message_json('No image uploaded'), HTTPStatus.BAD_REQUEST
 
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
@@ -34,7 +34,7 @@ class ImageResource(Resource):
             try:
                 file.save(image_path)
                 res_json = {
-                    'message': '图片上传成功',
+                    'message': 'Upload image successfully',
                     'image_path': image_path
                 }
                 return res_json, HTTPStatus.CREATED
@@ -46,8 +46,8 @@ class ImageResource(Resource):
         """Retrieve an image resource by file path"""
         image_path = request.args.get('image_path')
         if image_path is None:
-            return get_message_json('缺少图片文件路径'), HTTPStatus.BAD_REQUEST
+            return get_message_json('No file path'), HTTPStatus.BAD_REQUEST
         if allowed_file(image_path) and os.path.exists(image_path):
             extension = os.path.splitext(image_path)[1][1:]
             return send_file(image_path, mimetype='image/'+extension)
-        return get_message_json('图片文件路径无效'), HTTPStatus.BAD_REQUEST
+        return get_message_json('invalid file path'), HTTPStatus.BAD_REQUEST
