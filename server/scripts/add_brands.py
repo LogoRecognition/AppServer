@@ -1,18 +1,21 @@
 # coding=utf-8
-import requests
 import os
+import sys
+import requests
 from flask import Flask
 from sqlalchemy.exc import IntegrityError
+
+sys.path.append(os.path.abspath('./'))
 from app.model import init_db
 
 
 def initialize():
     """Initialize a simple app to establish DB connection"""
-    app = Flask(__name__)
+    app = Flask(__name__, instance_relative_config=True)
     # Load private config at instance/config.py
-    config_path = '../../instance/config.py'
+    config_path = 'instance/config.py'
     if os.path.exists(config_path):
-        app.config.from_pyfile(config_path)
+        app.config.from_pyfile('config.py')
 
     # Initialize database
     init_db(
@@ -21,7 +24,7 @@ def initialize():
         app.config['DB_NAME']
     )
 
-    logo_folder_path = os.path.join('../../', app.config['IMAGE_FOLDER'], 'logos')
+    logo_folder_path = os.path.join(app.config['IMAGE_FOLDER'], 'logos')
     if not os.path.exists(logo_folder_path):
         os.makedirs(logo_folder_path)
 
@@ -40,7 +43,7 @@ def download_image(url, img_path):
 def main():
     logo_folder_path = initialize()
     from app.model import brands
-    with open('brands.txt') as f:
+    with open('scripts/brands.txt') as f:
         f.readline()
         for l in f.readlines():
             items = l.strip().split('|')
