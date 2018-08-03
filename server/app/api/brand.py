@@ -19,7 +19,7 @@ class BrandResource(Resource):
                 return get_message_json('Brand not found'), HTTPStatus.NOT_FOUND
             json_res = the_brand.to_json()
             json_res['classic_goods'] = []
-            search_records.add_record(name)
+            search_records.add_record(the_brand.name)
             return json_res, HTTPStatus.OK
         except Exception as err:
             return handle_internal_error(str(err))

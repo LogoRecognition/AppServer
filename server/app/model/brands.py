@@ -39,7 +39,7 @@ def add_brand(_name, _category, _logo, _intro):
 
 def find_brand_by_name(_name):
     try:
-        the_brand = session.query(Brands).filter(Brands.name == _name).first()
+        the_brand = session.query(Brands).filter(Brands.name.ilike('%'+_name+'%')).first()
         session.commit()
         return the_brand
     except Exception as err:
