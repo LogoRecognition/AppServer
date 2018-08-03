@@ -3,7 +3,7 @@
 from flask_restplus import Namespace, Resource
 from http import HTTPStatus
 from .utils import get_message_json, handle_internal_error
-from ..model import brands
+from ..model import brands, search_records
 
 api = Namespace('brand')
 
@@ -15,8 +15,11 @@ class BrandResource(Resource):
 
         try:
             the_brand = brands.find_brand_by_name(name)
+            if the_brand is None:
+                return get_message_json('Brand not found'), HTTPStatus.NOT_FOUND
             json_res = the_brand.to_json()
             json_res['classic_goods'] = []
+            search_records.add_record(name)
             return json_res, HTTPStatus.OK
         except Exception as err:
             return handle_internal_error(str(err))
