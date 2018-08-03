@@ -44,3 +44,8 @@ def find_brand_by_name(_name):
         return the_brand
     except Exception as err:
         handle_db_exception(err)
+
+
+def find_brands_by_name_list(names):
+    the_brands = session.query(Brands).filter(Brands.name.in_(names)).all()
+    return the_brands

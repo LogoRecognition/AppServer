@@ -1,5 +1,5 @@
 # coding=utf-8
-"""Deal with detection-related APIs."""
+"""Deal with brand-related APIs."""
 from flask_restplus import Namespace, Resource
 from http import HTTPStatus
 from .utils import get_message_json, handle_internal_error
@@ -8,7 +8,7 @@ from ..model import brands, search_records
 api = Namespace('brand')
 
 
-@api.route('/brand/<string:name>')
+@api.route('/<string:name>')
 class BrandResource(Resource):
     def get(self, name):
         """Retrieve basic info of a brand by name."""
