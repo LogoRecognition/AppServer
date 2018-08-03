@@ -47,5 +47,5 @@ def find_brand_by_name(_name):
 
 
 def find_brands_by_name_list(names):
-    the_brands = session.query(Brands).filter(Brands.name.in_(names)).all()
+    the_brands = [session.query(Brands).filter(Brands.name == name).first() for name in names]
     return the_brands
