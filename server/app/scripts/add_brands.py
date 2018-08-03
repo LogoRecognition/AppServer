@@ -43,7 +43,7 @@ def main():
     with open('brands.txt') as f:
         f.readline()
         for l in f.readlines():
-            items = l.split('|')
+            items = l.strip().split('|')
             img_path = os.path.join(logo_folder_path, items[0]+'.jpg')
             items[2] = download_image(items[2], img_path)
             try:
