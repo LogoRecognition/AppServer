@@ -38,6 +38,9 @@ def create_app(config_name):
         print('You have to configure your correct MySQL account in server/instance/config.py')
         exit(-1)
 
+    if not os.path.exists(app.config['IMAGE_FOLDER']):
+        os.makedirs(app.config['IMAGE_FOLDER'])
+
     from .api import api
     api.init_app(app)
 

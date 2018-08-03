@@ -25,7 +25,7 @@ class ImageResource(Resource):
 
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            file_dir = current_app.config['UPLOAD_FOLDER']
+            file_dir = os.path.join(current_app.config['IMAGE_FOLDER'], 'upload')
             if not os.path.exists(file_dir):
                 os.mkdir(file_dir)
             image_path = os.path.join(file_dir, filename)
