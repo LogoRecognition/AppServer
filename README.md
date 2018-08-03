@@ -14,9 +14,6 @@ virtualenv venv -p python3
 source venv/bin/activate
 # 安装第三方模块
 pip install -r requirements.txt
-# 自动构建数据库
-cd app/scripts
-python add_brands.py
 ```
 
 ## How to run
@@ -29,8 +26,11 @@ DB_NAME = 'logo'             	# 数据库名称
 IMAGE_FOLDER = '../images/'		# 图片目录
 ```
 
-然后切换至`server`目录下，运行下列命令即可：
+然后切换至`server`目录下：
 
 ```bash
+# 自动添加数据
+python scripts/add_brands.py
+# 运行服务器程序
 python run.py
 ```
