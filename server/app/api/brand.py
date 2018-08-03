@@ -1,0 +1,22 @@
+# coding=utf-8
+"""Deal with detection-related APIs."""
+from flask_restplus import Namespace, Resource
+from http import HTTPStatus
+from .utils import get_message_json, handle_internal_error
+from ..model import brands
+
+api = Namespace('brand')
+
+
+@api.route('/brand/<string:name>')
+class BrandResource(Resource):
+    def get(self, name):
+        """Retrieve basic info of a brand by name."""
+
+        try:
+            the_brand = brands.find_brand_by_name(name)
+            json_res = the_brand.to_json()
+            json_res['classic_goods'] = []
+            return json_res, HTTPStatus.OK
+        except Exception as err:
+            return handle_internal_error(str(err))

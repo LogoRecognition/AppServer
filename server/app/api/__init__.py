@@ -7,6 +7,7 @@ Refer to http://flask-restplus.readthedocs.io/en/stable/scaling.html
 from flask_restplus import Api
 
 from .image import api as image_ns
+from .brand import api as brand_ns
 
 api = Api(
     title='LogoRecognition',
@@ -15,3 +16,4 @@ api = Api(
 
 # `path` is somehow required
 api.add_namespace(image_ns, path='/images')
+api.add_namespace(brand_ns, path='/brand')

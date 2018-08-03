@@ -13,6 +13,15 @@ class Brands(Base):
     category = Column(VARCHAR(128), nullable=False)
     logo = Column(VARCHAR(256), nullable=False)
 
+    def to_json(self):
+        """Return a json for the record."""
+        return {
+            'name': self.name,
+            'intro': self.intro,
+            'category': self.category,
+            'logo': self.logo
+        }
+
 
 def add_brand(_name, _category, _logo, _intro):
     """Add a brand to database."""
@@ -24,5 +33,14 @@ def add_brand(_name, _category, _logo, _intro):
     try:
         session.add(brand)
         session.commit()
+    except Exception as err:
+        handle_db_exception(err)
+
+
+def find_brand_by_name(_name):
+    try:
+        the_brand = session.query(Brands).filter(Brands.name == _name).first()
+        session.commit()
+        return the_brand
     except Exception as err:
         handle_db_exception(err)
