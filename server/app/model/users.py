@@ -62,3 +62,17 @@ def find_user_by_name(user_name):
         return user
     except Exception as err:
         handle_db_exception(err)
+
+
+def update_user_info(user_id, password=None, email=None, birthday=None, gender=None, **kwargs):
+    try:
+        result = session.query(Users).filter(Users.user_id == user_id).update({
+            "password": password if password is not None else Users.password,
+            "email": email if email is not None else Users.email,
+            "birthday": birthday if birthday is not None else Users.birthday,
+            "gender": gender if gender is not None else Users.gender
+        })
+        session.commit()
+        return result
+    except Exception as err:
+        handle_db_exception(err)

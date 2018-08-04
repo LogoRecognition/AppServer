@@ -38,11 +38,13 @@ class UserResource(Resource):
     def put(self):
         """Modify the info of an user."""
         try:
-            # TODO
             form = request.get_json()
-            form['password'] = generate_password_hash(form['password']),
-            return json_res, HTTPStatus.CREATED
-        except IntegrityError:
-            return get_message_json('User name already exists'), HTTPStatus.CONFLICT
+            if form.get('password'):
+                form['password'] = generate_password_hash(form['password']),
+            form['user_id'] = current_user.user_id
+            if not users.update_user_info(**form):
+                return get_message_json('User not found'), HTTPStatus.NOT_FOUND
+            # TODO: update collections
+            return current_user.to_json(), HTTPStatus.ACCEPTED
         except Exception as err:
             return handle_internal_error(str(err))
