@@ -1,8 +1,8 @@
 # coding=utf-8
 """Define table and operations for users."""
 from flask_login import UserMixin
-from sqlalchemy import Column, Integer, VARCHAR, DATE, BOOLEAN, TEXT
-from . import Base, session, handle_db_exception
+from sqlalchemy import Column, Integer, VARCHAR, DATE, BOOLEAN
+from . import Base, session, handle_db_exception, collections
 
 
 class Users(Base, UserMixin):
@@ -23,7 +23,8 @@ class Users(Base, UserMixin):
             'user_name': self.user_name,
             'email': self.email,
             'birthday': str(self.birthday) if self.birthday else None,
-            'gender': int(self.gender)
+            'gender': int(self.gender),
+            'collections': collections.get_collections_by_user(self.user_id)
         }
 
     def get_id(self):

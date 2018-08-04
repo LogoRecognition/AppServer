@@ -5,7 +5,7 @@ from werkzeug.security import generate_password_hash
 from flask import request
 from flask_login import login_required, current_user
 from sqlalchemy.exc import IntegrityError
-from ..model import users
+from ..model import users, collections
 from .utils import *
 
 
@@ -36,7 +36,7 @@ class UserResource(Resource):
              .add_argument('body', type=str, required=True, help='json', location='json')
              )
     def put(self):
-        """Modify the info of an user."""
+        """Modify the info of the current user."""
         try:
             form = request.get_json()
             if form.get('password'):
@@ -44,7 +44,21 @@ class UserResource(Resource):
             form['user_id'] = current_user.user_id
             if not users.update_user_info(**form):
                 return get_message_json('User not found'), HTTPStatus.NOT_FOUND
-            # TODO: update collections
+            if form.get('collection_to_add'):
+                collections.add_collection(current_user.user_id, form['collection_to_add'])
+            if form.get('collection_to_remove'):
+                if not collections.delete_collection(current_user.user_id, form['collection_to_remove']):
+                    return get_message_json('Collection not found'), HTTPStatus.NOT_FOUND
             return current_user.to_json(), HTTPStatus.ACCEPTED
+        except IntegrityError:
+            return get_message_json('Collection already exists or brand not found'), HTTPStatus.CONFLICT
+        except Exception as err:
+            return handle_internal_error(str(err))
+
+    @login_required
+    def get(self):
+        """Get the info of the current user."""
+        try:
+            return current_user.to_json(), HTTPStatus.OK
         except Exception as err:
             return handle_internal_error(str(err))
