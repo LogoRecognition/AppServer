@@ -10,7 +10,7 @@ api = Namespace('brand_heat')
 
 
 @api.route('/')
-class BrandHEATResource(Resource):
+class BrandHeatResource(Resource):
     @api.doc(params={'num': 'max number of brands'})
     def get(self):
         """Get some heat brands."""
