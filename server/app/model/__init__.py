@@ -21,7 +21,7 @@ def init_db(_user,
     session = sessionmaker(bind=db_engine)()
 
     # Create all tables
-    from . import brands, classic_goods, search_records
+    from . import brands, classic_goods, search_records, users
     Base.metadata.create_all(db_engine)
 
 
