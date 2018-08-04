@@ -23,6 +23,7 @@ pip install -r requirements.txt
 DB_USERNAME = 'username'      	# MySQL用户名
 DB_PASSWORD = 'password'      	# MySQL密码
 DB_NAME = 'logo'             	# 数据库名称
+SECRET_KEY = 'HELLO'            # 会话秘钥
 IMAGE_FOLDER = '../images/'		# 图片目录
 ```
 
