@@ -30,3 +30,19 @@ class UserResource(Resource):
             return get_message_json('User name already exists'), HTTPStatus.CONFLICT
         except Exception as err:
             return handle_internal_error(str(err))
+
+    @login_required
+    @api.doc(parser=api.parser()
+             .add_argument('body', type=str, required=True, help='json', location='json')
+             )
+    def put(self):
+        """Modify the info of an user."""
+        try:
+            # TODO
+            form = request.get_json()
+            form['password'] = generate_password_hash(form['password']),
+            return json_res, HTTPStatus.CREATED
+        except IntegrityError:
+            return get_message_json('User name already exists'), HTTPStatus.CONFLICT
+        except Exception as err:
+            return handle_internal_error(str(err))

@@ -38,6 +38,23 @@ def create_app(config_name):
         print('You have to configure your correct MySQL account in server/instance/config.py')
         exit(-1)
 
+    from flask_login import LoginManager
+    login_manager = LoginManager()
+    login_manager.init_app(app)
+
+    from .model import users
+
+    @login_manager.user_loader
+    def load_user(userid):
+        """Load user."""
+        user = users.find_user_by_id(userid)
+        if user:
+            return user
+
+    @login_manager.unauthorized_handler
+    def unauthorized():
+        return {'message:': 'User not logged in'}, 401  # Don't replace this Magic Number!
+
     if not os.path.exists(app.config['IMAGE_FOLDER']):
         os.makedirs(app.config['IMAGE_FOLDER'])
 

@@ -44,3 +44,21 @@ def add_user(user_name, password, email, birthday, gender):
         return user
     except Exception as err:
         handle_db_exception(err)
+
+
+def find_user_by_id(user_id):
+    try:
+        user = session.query(Users).filter(Users.user_id == user_id).first()
+        session.commit()
+        return user
+    except Exception as err:
+        handle_db_exception(err)
+
+
+def find_user_by_name(user_name):
+    try:
+        user = session.query(Users).filter(Users.user_name == user_name).first()
+        session.commit()
+        return user
+    except Exception as err:
+        handle_db_exception(err)
