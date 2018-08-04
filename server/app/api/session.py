@@ -34,3 +34,9 @@ class SessionResource(Resource):
             return json_res, HTTPStatus.OK
         except Exception as err:
             return handle_internal_error(str(err))
+
+    @login_required
+    def delete(self):
+        """Log out"""
+        logout_user()
+        return get_message_json('Log out successfully'), HTTPStatus.OK
