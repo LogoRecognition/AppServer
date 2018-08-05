@@ -1,6 +1,6 @@
 # coding=utf-8
 """Define table and operations for classic goods."""
-from sqlalchemy import Column, Integer, VARCHAR, ForeignKey
+from sqlalchemy import Column, Integer, VARCHAR, ForeignKey, UniqueConstraint
 from . import Base, session, handle_db_exception
 
 
@@ -12,3 +12,17 @@ class ClassicGoods(Base):
     name = Column(VARCHAR(128), nullable=False)
     brand_name = Column(VARCHAR(128), ForeignKey('Brands.name'))
     image = Column(VARCHAR(256), nullable=False)
+
+    UniqueConstraint(brand_name, name)
+
+
+def add_classic_goods(name, brand_name, image):
+    try:
+        goods = ClassicGoods()
+        goods.name = name
+        goods.brand_name = brand_name
+        goods.image = image
+        session.add(goods)
+        session.commit()
+    except Exception as err:
+        handle_db_exception(err)

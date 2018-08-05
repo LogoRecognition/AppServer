@@ -1,0 +1,5 @@
+name|brand_name|image_url
+Air Max|Nike|https://www.flightclub.com/media/catalog/product/cache/1/image/1600x1140/9df78eab33525d08d6e5fb8d27136e95/0/5/052640_1.jpg
+Air Force|Nike|https://images.nike.com/is/image/DotCom/PDP_HERO_M/AA3964_001_A_PREM/air-force-1-upstep-premium-lx-womens-shoe.jpg
+IPhone|Apple|https://cnet4.cbsistatic.com/img/9vEVqVx3KOqT0RGAswuhGv3YFSk=/830x467/2017/10/31/a22348c2-6d9b-4c45-9b4d-e5e2d1ce0344/iphone-x-comparisons-01.jpg
+MacBook Pro|Apple|https://images-na.ssl-images-amazon.com/images/I/71HG3D8-OQL._SL1350_.jpg
