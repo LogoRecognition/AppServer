@@ -1,6 +1,7 @@
 # coding=utf-8
 """Deal with brand-related APIs."""
 from flask_restplus import Namespace, Resource
+from flask_login import current_user
 from http import HTTPStatus
 from .utils import get_message_json, handle_internal_error
 from ..model import brands, search_records
@@ -19,7 +20,7 @@ class BrandResource(Resource):
                 return get_message_json('Brand not found'), HTTPStatus.NOT_FOUND
             json_res = the_brand.to_json()
             json_res['classic_goods'] = []
-            search_records.add_record(the_brand.name)
+            search_records.add_record(the_brand.name, current_user.get_id())
             return json_res, HTTPStatus.OK
         except Exception as err:
             return handle_internal_error(str(err))

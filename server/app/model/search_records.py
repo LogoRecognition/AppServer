@@ -12,13 +12,15 @@ class SearchRecords(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True, unique=True)
     brand_name = Column(VARCHAR(128), ForeignKey('Brands.name'))
+    user_id = Column(Integer, ForeignKey('Users.user_id'))
     date = Column(DATE, nullable=False)
 
 
-def add_record(_brand_name):
+def add_record(brand_name, user_id):
     """Add a search record to database."""
     record = SearchRecords()
-    record.brand_name = _brand_name
+    record.brand_name = brand_name
+    record.user_id = user_id
     record.date = datetime.date.today()
     try:
         session.add(record)
