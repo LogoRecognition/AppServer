@@ -29,10 +29,17 @@ def add_record(brand_name, user_id):
         handle_db_exception(err)
 
 
-def get_heat_brands(num):
+def get_heat_brands(num, user_id):
     try:
-        brand_names = session.query(SearchRecords.brand_name, func.count(SearchRecords.brand_name))\
-            .group_by(SearchRecords.brand_name).all()
+        if user_id is not None:
+            user_filtered = session.query(SearchRecords)\
+                .filter(SearchRecords.user_id == user_id)\
+                .subquery('user_filtered')
+        else:
+            user_filtered = session.query(SearchRecords).subquery('user_filtered')
+        brand_names = session.query(user_filtered.c.brand_name, func.count(user_filtered.c.brand_name))\
+            .filter(user_filtered.c.user_id == user_id)\
+            .group_by(user_filtered.c.brand_name).all()
         brand_names = sorted(brand_names, key=lambda x: x[1], reverse=True)
         if num:
             brand_names = brand_names[:num]

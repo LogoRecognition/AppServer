@@ -1,6 +1,7 @@
 # coding=utf-8
 """Deal with brand-heat-related APIs."""
 from flask import request
+from flask_login import current_user
 from flask_restplus import Namespace, Resource
 from http import HTTPStatus
 from .utils import get_message_json, handle_internal_error
@@ -11,7 +12,10 @@ api = Namespace('brand_heat')
 
 @api.route('/')
 class BrandHeatResource(Resource):
-    @api.doc(params={'num': 'max number of brands'})
+    @api.doc(params={
+        'num': 'max number of brands',
+        'current_user': 'a flag indicating that only records of current user will be taken into account'
+    })
     def get(self):
         """Get some heat brands."""
 
@@ -19,7 +23,8 @@ class BrandHeatResource(Resource):
             num = request.args.get('num')
             if num:
                 num = int(num)
-            result = search_records.get_heat_brands(num)
+            user_id = current_user.get_id() if request.args.get('current_user') == '1' else None
+            result = search_records.get_heat_brands(num, user_id)
             json_res = {
                 'brands': [x.to_json() for x in result]
             }
