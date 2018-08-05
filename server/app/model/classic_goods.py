@@ -1,6 +1,6 @@
 # coding=utf-8
 """Define table and operations for classic goods."""
-from sqlalchemy import Column, Integer, VARCHAR, ForeignKey, UniqueConstraint
+from sqlalchemy import Column, Integer, VARCHAR, ForeignKey, UniqueConstraint, and_
 from . import Base, session, handle_db_exception
 
 
@@ -24,5 +24,16 @@ def add_classic_goods(name, brand_name, image):
         goods.image = image
         session.add(goods)
         session.commit()
+    except Exception as err:
+        handle_db_exception(err)
+
+
+def find_classic_goods(name, brand_name):
+    try:
+        the_goods = session.query(ClassicGoods).filter(
+            and_(ClassicGoods.name.ilike('%'+name+'%'), ClassicGoods.brand_name.ilike('%'+brand_name+'%')))\
+            .first()
+        session.commit()
+        return the_goods
     except Exception as err:
         handle_db_exception(err)

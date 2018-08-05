@@ -2,7 +2,6 @@
 import os
 from utils import *
 from werkzeug.utils import secure_filename
-from sqlalchemy.exc import IntegrityError
 
 
 def main():
@@ -16,12 +15,15 @@ def main():
         f.readline()
         for l in f.readlines():
             items = l.strip().split('|')
+            if classic_goods.find_classic_goods(items[0], items[1]):
+                print('%s already exists!' % items[0])
+                continue
             img_path = os.path.join(goods_folder_path, secure_filename(items[1]+'_'+items[0]+'.jpg'))
             items[2] = download_image(items[2], img_path)
             try:
                 classic_goods.add_classic_goods(*items)
-            except IntegrityError:
-                print('%s already exists!' % items[0])
+            except Exception:
+                print('Error occurred when adding %s' % items[0])
 
 
 if __name__ == '__main__':

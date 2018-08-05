@@ -1,7 +1,6 @@
 # coding=utf-8
 import os
 from utils import *
-from sqlalchemy.exc import IntegrityError
 
 
 def main():
@@ -15,12 +14,15 @@ def main():
         f.readline()
         for l in f.readlines():
             items = l.strip().split('|')
+            if brands.find_brand_by_name(items[0]):
+                print('%s already exists!' % items[0])
+                continue
             img_path = os.path.join(logo_folder_path, items[0]+'.jpg')
             items[2] = download_image(items[2], img_path)
             try:
                 brands.add_brand(*items)
-            except IntegrityError:
-                print('%s already exists!' % items[0])
+            except Exception:
+                print('Error occurred when adding %s' % items[0])
 
 
 if __name__ == '__main__':
