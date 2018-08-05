@@ -32,6 +32,7 @@ IMAGE_FOLDER = '../images/'		# 图片目录
 ```bash
 # 自动添加数据
 python scripts/add_brands.py
+python scripts/add_classic_goods.py
 # 运行服务器程序
 python run.py
 ```
