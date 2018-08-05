@@ -15,7 +15,7 @@ def main():
         f.readline()
         for l in f.readlines():
             items = l.strip().split('|')
-            if classic_goods.find_classic_goods(items[0], items[1]):
+            if classic_goods.find_single_classic_goods(items[0], items[1]):
                 print('%s already exists!' % items[0])
                 continue
             img_path = os.path.join(goods_folder_path, secure_filename(items[1]+'_'+items[0]+'.jpg'))
