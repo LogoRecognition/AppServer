@@ -3,7 +3,7 @@
 from flask_restplus import Namespace, Resource
 from werkzeug.security import generate_password_hash
 from flask import request
-from flask_login import login_required, current_user
+from flask_login import login_required, current_user, login_user
 from sqlalchemy.exc import IntegrityError
 from ..model import users, collections
 from .utils import *
@@ -24,7 +24,9 @@ class UserResource(Resource):
         try:
             form = request.get_json()
             form['password'] = generate_password_hash(form['password']),
-            json_res = users.add_user(**form).to_json()
+            the_user = users.add_user(**form)
+            json_res = the_user.to_json()
+            login_user(the_user, remember=True)
             return json_res, HTTPStatus.CREATED
         except IntegrityError:
             return get_message_json('User name already exists'), HTTPStatus.CONFLICT
