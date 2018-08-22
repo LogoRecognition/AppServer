@@ -23,7 +23,7 @@ class Users(Base, UserMixin):
             'user_name': self.user_name,
             'email': self.email,
             'birthday': str(self.birthday) if self.birthday else None,
-            'gender': int(self.gender),
+            'gender': int(self.gender) if self.gender else None,
             'collections': collections.get_collections_by_user(self.user_id)
         }
 
@@ -32,7 +32,7 @@ class Users(Base, UserMixin):
         return self.user_id
 
 
-def add_user(user_name, password, email, birthday, gender):
+def add_user(user_name, password, email, birthday=None, gender=None):
     try:
         user = Users()
         user.user_name = user_name
