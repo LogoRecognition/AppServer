@@ -12,6 +12,7 @@ from .brand_heat import api as brand_heat_ns
 from .searching_indexes import api as searching_indexes_ns
 from .user import api as user_ns
 from .session import api as session_ns
+from .detection import api as detection_ns
 
 api = Api(
     title='LogoRecognition',
@@ -25,3 +26,4 @@ api.add_namespace(brand_heat_ns, path='/brand_heat')
 api.add_namespace(searching_indexes_ns, path='/searching_indexes')
 api.add_namespace(user_ns, path='/user')
 api.add_namespace(session_ns, path='/session')
+api.add_namespace(detection_ns, path='/detection')
